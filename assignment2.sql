@@ -1,0 +1,100 @@
+## CREATE TABLE
+
+-- CREATE TABLE SUPPLIER(
+-- 	SID VARCHAR(50) PRIMARY KEY,
+-- 	SNAME VARCHAR(50),
+-- 	CITY VARCHAR(100)
+-- );	
+
+
+-- CREATE TABLE ITEM(
+-- 	ITEM_ID VARCHAR(100) PRIMARY KEY,
+-- 	INAME VARCHAR(100),
+-- 	COLOR VARCHAR(100),
+-- 	WEIGHT INTEGER
+-- );	
+
+-- CREATE TABLE SUPPLY(
+-- 	SID VARCHAR(50),
+-- 	ITEM_ID VARCHAR(100),
+-- 	QUANTITY INTEGER,
+-- 	PRIMARY KEY(SID , ITEM_ID),
+-- 	FOREIGN KEY(SID) REFERENCES SUPPLIER(SID),
+-- 	FOREIGN KEY(ITEM_ID) REFERENCES ITEM(ITEM_ID)
+-- )
+
+
+## INSERT DATA 
+
+-- INSERT INTO SUPPLIER VALUES ('S01', 'ABC Traders', 'Kolkata');
+-- INSERT INTO SUPPLIER VALUES ('S02', 'Mitra Supply', 'Delhi');
+-- INSERT INTO SUPPLIER VALUES ('S03', 'Global Exporters', 'Mumbai');
+
+
+-- INSERT INTO ITEM VALUES ('I01', 'Laptop', 'Silver', 2.5);
+-- INSERT INTO ITEM VALUES ('I02', 'Chair', 'Black', 7.8);
+-- INSERT INTO ITEM VALUES ('I03', 'Desk', 'Brown', 15.0);
+
+-- INSERT INTO SUPPLY VALUES ('S01', 'I01', 20);
+-- INSERT INTO SUPPLY VALUES ('S01', 'I02', 35);
+-- INSERT INTO SUPPLY VALUES ('S02', 'I01', 10);
+-- INSERT INTO SUPPLY VALUES ('S03', 'I03', 15);
+
+-- ## SELECT ALL DATA
+
+-- SELECT * FROM SUPPLIER;
+-- SELECT * FROM ITEM;
+-- SELECT * FROM SUPPLY;
+
+
+-- Q2: Find all the items which are sold by at least one supplier.
+
+-- SELECT * FROM ITEM 
+-- NATURAL JOIN SUPPLY;
+
+-- SELECT * FROM ITEM I 
+--  JOIN SUPPLY S on I.ITEM_ID = s.ITEM_ID;
+
+-- Q3 : Find all the suppliers who live in Delhi.
+
+SELECT * FROM  SUPPLIER
+where city = 'Delhi';
+
+-- Find all the suppliers who do not sell any item.
+
+
+SELECT * 
+FROM SUPPLIER 
+WHERE SID NOT IN (SELECT SID FROM SUPPLY);
+
+SELECT * FROM SUPPLY;
+SELECT * FROM SUPPLIER;
+
+-- viii. Find all the suppliers who sell the item number ‘101’.
+
+SELECT DISTINCT SP.* FROM SUPPLIER SP
+JOIN SUPPLY S ON S.SID = SP.SID
+WHERE ITEM_ID = 'I01'
+
+-- x. Find all the suppliers who sell the item of color SILVER.
+SELECT * FROM ITEM;
+
+SELECT DISTINCT S.* 
+FROM SUPPLIER S 
+JOIN SUPPLY SP ON S.SID = SP.SID
+JOIN ITEM I ON SP.ITEM_ID = I.ITEM_ID
+WHERE UPPER(I.COLOR) = 'SILVER';
+
+-- xi. Find all the suppliers who sell the item of color RED with quantity between
+-- 200 and 500.
+
+
+SELECT * FROM SUPPLY ;
+
+SELECT * FROM ITEM ;
+
+SELECT DISTINCT S.* 
+FROM SUPPLIER S 
+JOIN SUPPLY SP ON S.SID = SP.SID
+JOIN ITEM I ON SP.ITEM_ID = I.ITEM_ID
+WHERE UPPER(I.COLOR) = 'SILVER' AND SP.quantity > 15;
